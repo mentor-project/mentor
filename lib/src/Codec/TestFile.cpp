@@ -4,7 +4,7 @@
 namespace mentor::codec
 {
 
-std::optional<kernel::TestFile> decodeTestFile(const nlohmann::json &j)
+std::optional<TestFile> decodeTestFile(const nlohmann::json &j)
 {
     if (!j.contains("questions"))
         return std::nullopt;
@@ -13,7 +13,7 @@ std::optional<kernel::TestFile> decodeTestFile(const nlohmann::json &j)
     if (!ti.has_value())
         return std::nullopt;
 
-    kernel::TestFile tf;
+    TestFile tf;
     tf.info      = ti.value();
     tf.questions = j["questions"];
     return tf;

@@ -9,6 +9,7 @@ target_sources(mentor_lib
   PRIVATE
     src/Codec/Model.cpp
     src/Codec/TestFile.cpp
+    src/Service/FileService.cpp
 )
 
 if(BUILD_MENTOR_TEST)
