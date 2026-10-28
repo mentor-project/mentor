@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Base/Model.hpp"
+#include "Base/Protocol/Model.hpp"
 #include <concepts>
 #include <nlohmann/json.hpp>
 #include <optional>

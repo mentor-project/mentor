@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Base/Model.hpp"
+#include "Base/Protocol/Model.hpp"
 #include <nlohmann/json.hpp>
 
-namespace mentor::kernel
+namespace mentor
 {
 
 struct TestFile

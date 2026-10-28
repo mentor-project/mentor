@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Kernel/File/TestFile.hpp"
+#include "Base/Protocol/TestFile.hpp"
 
 namespace mentor::codec
 {
 
-std::optional<kernel::TestFile> decodeTestFile(const nlohmann::json &j);
+std::optional<TestFile> decodeTestFile(const nlohmann::json &j);
 
 template <typename File>
-concept IsTestFile = std::same_as<File, kernel::TestFile>;
+concept IsTestFile = std::same_as<File, TestFile>;
 
 template <typename File>
 std::optional<File> decode(const nlohmann::json &j)

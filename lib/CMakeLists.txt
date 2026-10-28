@@ -9,8 +9,10 @@ target_sources(mentor_lib
   PRIVATE
     src/Codec/Model.cpp
     src/Codec/TestFile.cpp
+    src/Service/FileService.cpp
 )
 
 if(BUILD_MENTOR_TEST)
+  target_compile_definitions(mentor_lib PRIVATE MENTOR_LIB_TEST)
   add_subdirectory(test)
 endif()

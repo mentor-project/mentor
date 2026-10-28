@@ -1,5 +1,5 @@
 #include "Codec/Model.hpp"
-#include "Base/Model.hpp"
+#include "Base/Protocol/Model.hpp"
 
 namespace mentor::codec
 {
