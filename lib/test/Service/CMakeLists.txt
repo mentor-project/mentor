@@ -1,7 +1,5 @@
 include(mentor_test)
 
-file(GLOB TEST_SOURCES *.cpp)
-
 message(STATUS "[mentor_lib] Configuring Service tests...")
 
 mentor_add_test(file_service SOURCES file_service.cpp)

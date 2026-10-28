@@ -1,0 +1,33 @@
+{
+    "author": "TPPPP",
+    "description": "this is a test",
+    "id": 99,
+    "mode": 1,
+    "name": "test",
+    "questions": [
+        {
+            "answer": 0,
+            "hint": "h",
+            "id": 1,
+            "options": [
+                "op1",
+                "op2"
+            ],
+            "score": 10,
+            "solution": "sol",
+            "stem": "s"
+        },
+        {
+            "answers": [
+                "12",
+                "3"
+            ],
+            "hint": "h",
+            "id": 1,
+            "score": 10,
+            "solution": "sol",
+            "stem": "s"
+        }
+    ],
+    "score": 50
+}
