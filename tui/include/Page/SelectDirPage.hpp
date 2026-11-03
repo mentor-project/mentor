@@ -13,23 +13,12 @@ namespace mentor::tui
 
 inline ftxui::Component getSelectDirPage(AppContext &ac)
 {
-    auto entry = [&ac](const std::string &s)
+    auto buildListFromCurPath = [&ac]()
     {
-        ac.cur_path = ac.files[ac.list_selected];
         ac.files.clear();
         ac.list.clear();
         ac.list_selected = 0;
-        if (!std::filesystem::is_directory(ac.cur_path))
-        {
-            ac.error_info     = "请不要进入文件";
-            ac.error_on_click = [&ac]()
-            {
-                ac.pm.back();
-            };
-            ac.pm.navigate(Page::error);
-            return;
-        }
-        auto it = std::filesystem::directory_iterator(ac.cur_path);
+        auto it          = std::filesystem::directory_iterator(ac.cur_path);
         for (const auto &entry : it)
         {
             auto p = static_cast<std::filesystem::path>(entry);
@@ -39,6 +28,23 @@ inline ftxui::Component getSelectDirPage(AppContext &ac)
             else
                 ac.list.emplace_back(p.filename().string());
         }
+    };
+    auto entry = [&ac, buildListFromCurPath](const std::string &s)
+    {
+        ac.cur_path = ac.files[ac.list_selected];
+        if (!std::filesystem::is_directory(ac.cur_path))
+        {
+            ac.error_info     = "请不要进入文件";
+            ac.error_on_click = [&ac, buildListFromCurPath]()
+            {
+                ac.pm.back();
+                ac.cur_path = ac.cur_path.parent_path();
+                buildListFromCurPath();
+            };
+            ac.pm.navigate(Page::error);
+            return;
+        }
+        buildListFromCurPath();
     };
     auto list = getListComponent(ac.list, ac.list_selected, entry);
 
