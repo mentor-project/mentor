@@ -2,8 +2,9 @@
 
 #include "Basic/AppContext.hpp"
 #include "Page/ErrorPage.hpp"
-#include "Page/WelcomePage.hpp"
 #include "Page/SelectDirPage.hpp"
+#include "Page/TestPreviewPage.hpp"
+#include "Page/WelcomePage.hpp"
 #include <ftxui/component/event.hpp>
 
 namespace mentor::tui
@@ -24,6 +25,8 @@ public:
             return handleWelcomePageEvent(m_ac, e);
         case Page::select_dir:
             return handleSelectDirPageEvent(m_ac, e);
+        case Page::test_preview:
+            return handleTestPreviewPageEvent(m_ac, e);
         case Page::error:
             return handleErrorPageEvent(m_ac, e);
         default:

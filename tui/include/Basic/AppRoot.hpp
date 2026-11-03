@@ -8,6 +8,7 @@
 #include "Page/SelectCurDirPage.hpp"
 #include "Page/SelectDirPage.hpp"
 #include "Page/SelectFilePage.hpp"
+#include "Page/TestPreviewPage.hpp"
 #include "Page/WelcomePage.hpp"
 #include <ftxui/component/component_base.hpp>
 #include <ftxui/component/event.hpp>
@@ -27,10 +28,11 @@ public:
         m_pages.emplace(Page::select_file, getSelectFilePage(ac));
         m_pages.emplace(Page::select_dir, getSelectDirPage(ac));
         m_pages.emplace(Page::ensure_select_dir, getEnsureSelectDirPage(ac));
-        m_pages.emplace(Page::test_preview, ftxui::Renderer([]
-                                                            {
-                                                                return ftxui::text("test_preview");
-                                                            }));
+        m_pages.emplace(Page::test_preview, getTestPreviewPage(ac));
+        m_pages.emplace(Page::choice_question, ftxui::Renderer([]()
+                                                               {
+                                                                   return ftxui::text("choice");
+                                                               }));
         m_pages.emplace(Page::error, getErrorPage(ac));
 
         ac.cur_path = "C:/";

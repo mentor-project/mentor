@@ -14,6 +14,8 @@ enum class Page : uint8_t
     ensure_select_dir,
     select_file,
     test_preview,
+    choice_question,
+    essay_question,
 
     // Error handling
     error,
