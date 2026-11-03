@@ -26,7 +26,10 @@ Response Kernel::handleLoadTestFile(Event e)
     if (!decoded.has_value())
         return {ResponseType::load_file_failed};
     m_test_file = std::move(decoded.value());
-    return {ResponseType::load_file_succeed};
+    Response response;
+    response.type    = ResponseType::load_file_succeed;
+    response.payload = &m_test_file.info;
+    return response;
 }
 
 State Kernel::getState() const noexcept
