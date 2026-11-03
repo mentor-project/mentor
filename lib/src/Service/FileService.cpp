@@ -31,12 +31,15 @@ std::optional<std::vector<std::filesystem::path>> FileService::getDirFiles(const
     else
         collect(std::filesystem::directory_iterator(p));
 
+    if (files.empty())
+        return std::nullopt;
+
     return files;
 }
 
-std::optional<std::vector<std::filesystem::path>> FileService::getCurrentDirFiles(bool is_recursive)
+std::optional<std::vector<std::filesystem::path>> FileService::getCurrentDirFiles(std::function<bool(const std::filesystem::path &p)> filter, bool is_recursive)
 {
-    return getDirFiles(std::filesystem::current_path(), nullptr, is_recursive);
+    return getDirFiles(std::filesystem::current_path(), filter, is_recursive);
 }
 
 json_file_id FileService::readJsonFile(const std::filesystem::path &p)

@@ -45,10 +45,10 @@ TEST_CASE("testing getDirFiles")
 TEST_CASE("testing getCurrentDirFiles")
 {
     FileService fs;
-    
+
     SUBCASE("not recursive")
     {
-        auto dummy = fs.getCurrentDirFiles(false);
+        auto dummy = fs.getCurrentDirFiles(nullptr, false);
         REQUIRE(dummy.has_value());
         CHECK(dummy->size() > 2);
         CHECK(std::find_if(dummy->begin(), dummy->end(), [](const std::filesystem::path &p)

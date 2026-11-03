@@ -19,7 +19,7 @@ public:
     std::optional<std::vector<std::filesystem::path>> getDirFiles(const std::filesystem::path &p,
                                                                   std::function<bool(const std::filesystem::path &p)> filter = nullptr,
                                                                   bool is_recursive                                          = true);
-    std::optional<std::vector<std::filesystem::path>> getCurrentDirFiles(bool is_recursive = true);
+    std::optional<std::vector<std::filesystem::path>> getCurrentDirFiles(std::function<bool(const std::filesystem::path &p)> filter = nullptr, bool is_recursive = true);
     json_file_id readJsonFile(const std::filesystem::path &p);
     nlohmann::json *getJsonFile(json_file_id fid);
 
