@@ -5,46 +5,60 @@
 #include "Component/List.hpp"
 #include <filesystem>
 #include <ftxui/component/component.hpp>
-#include <ftxui/dom/elements.hpp>
 #include <ftxui/component/event.hpp>
+#include <ftxui/dom/elements.hpp>
 
 namespace mentor::tui
 {
 
+inline void buildListFromCurPath(AppContext &ac)
+{
+    ac.files.clear();
+    ac.list.clear();
+    ac.list_selected = 0;
+    std::error_code ec;
+    auto it = std::filesystem::directory_iterator(ac.cur_path, ec);
+    if (ec)
+    {
+        ac.error_info     = "权限不足，无法访问该文件夹";
+        ac.error_on_click = [&ac]()
+        {
+            ac.pm.back();
+            ac.cur_path = ac.cur_path.parent_path();
+            buildListFromCurPath(ac);
+        };
+        ac.pm.navigate(Page::error);
+        return;
+    }
+    for (const auto &entry : it)
+    {
+        auto p = static_cast<std::filesystem::path>(entry);
+        ac.files.emplace_back(p);
+        if (std::filesystem::is_directory(p))
+            ac.list.emplace_back(p.filename().string() + "/");
+        else
+            ac.list.emplace_back(p.filename().string());
+    }
+}
+
 inline ftxui::Component getSelectDirPage(AppContext &ac)
 {
-    auto buildListFromCurPath = [&ac]()
-    {
-        ac.files.clear();
-        ac.list.clear();
-        ac.list_selected = 0;
-        auto it          = std::filesystem::directory_iterator(ac.cur_path);
-        for (const auto &entry : it)
-        {
-            auto p = static_cast<std::filesystem::path>(entry);
-            ac.files.emplace_back(p);
-            if (std::filesystem::is_directory(p))
-                ac.list.emplace_back(p.filename().string() + "/");
-            else
-                ac.list.emplace_back(p.filename().string());
-        }
-    };
-    auto entry = [&ac, buildListFromCurPath](const std::string &s)
+    auto entry = [&ac](const std::string &s)
     {
         ac.cur_path = ac.files[ac.list_selected];
         if (!std::filesystem::is_directory(ac.cur_path))
         {
             ac.error_info     = "请不要进入文件";
-            ac.error_on_click = [&ac, buildListFromCurPath]()
+            ac.error_on_click = [&ac]()
             {
                 ac.pm.back();
                 ac.cur_path = ac.cur_path.parent_path();
-                buildListFromCurPath();
+                buildListFromCurPath(ac);
             };
             ac.pm.navigate(Page::error);
             return;
         }
-        buildListFromCurPath();
+        buildListFromCurPath(ac);
     };
     auto list = getListComponent(ac.list, ac.list_selected, entry);
 
@@ -70,21 +84,8 @@ inline bool handleSelectDirPageEvent(AppContext &ac, const ftxui::Event &e)
         if (parent.empty())
             return true;
 
-        ac.files.clear();
-        ac.list.clear();
-        ac.list_selected = 0;
         ac.cur_path = parent;
-
-        auto it = std::filesystem::directory_iterator(parent);
-        for (const auto &entry : it)
-        {
-            auto p = static_cast<std::filesystem::path>(entry);
-            ac.files.emplace_back(p);
-            if (std::filesystem::is_directory(p))
-                ac.list.emplace_back(p.filename().string() + "/");
-            else
-                ac.list.emplace_back(p.filename().string());
-        }
+        buildListFromCurPath(ac);
         return true;
     }
 
