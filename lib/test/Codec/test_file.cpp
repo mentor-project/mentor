@@ -17,6 +17,7 @@ TEST_CASE("testing decoding of TestFile")
     "name": "test",
     "questions": [
         {
+            "type": 1,
             "answer": 0,
             "hint": "h",
             "id": 1,
@@ -29,6 +30,7 @@ TEST_CASE("testing decoding of TestFile")
             "stem": "s"
         },
         {
+            "type": 2,
             "answers": [
                 "12",
                 "3"
@@ -51,7 +53,7 @@ TEST_CASE("testing decoding of TestFile")
     CHECK(info.id == 99);
     CHECK(info.score == 50);
 
-    auto q1 = decode<ChoiceQuestion>(test_file->questions[0]).value();
+    auto q1 = *decode<ChoiceQuestion>(test_file->questions[0]);
     CHECK(q1.id == 1);
     CHECK(q1.stem == "s");
     CHECK(q1.solution == "sol");
@@ -61,7 +63,7 @@ TEST_CASE("testing decoding of TestFile")
     CHECK(q1.answer == 0);
     CHECK(q1.score == 10);
 
-    auto q2 = decode<EssayQuestion>(test_file->questions[1]).value();
+    auto q2 = *decode<EssayQuestion>(test_file->questions[1]);
     CHECK(q2.id == 1);
     CHECK(q2.stem == "s");
     CHECK(q2.solution == "sol");

@@ -5,9 +5,8 @@ namespace mentor::kernel
 
 enum class State
 {
-    Init,
-    WaitForChooseFile,
-    Testing,
+    init,
+    testing,
 };
 
 } // namespace mentor::kernel

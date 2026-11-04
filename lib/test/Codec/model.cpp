@@ -18,7 +18,7 @@ TEST_CASE("testing decoding of TestInfo")
             "mode": 1
         }
     )");
-    auto info = decode<TestInfo>(j).value();
+    auto info = *decode<TestInfo>(j);
     CHECK(info.name == "test");
     CHECK(info.author == "TPPPP");
     CHECK(info.description == "this is a test");
@@ -29,7 +29,7 @@ TEST_CASE("testing decoding of TestInfo")
     SUBCASE("default json")
     {
         auto j    = json::parse(R"({"id": 1})");
-        auto info = decode<TestInfo>(j).value();
+        auto info = *decode<TestInfo>(j);
         CHECK(info.name.empty());
         CHECK(info.author.empty());
         CHECK(info.description.empty());
@@ -42,7 +42,7 @@ TEST_CASE("testing decoding of TestInfo")
     {
         auto j    = json::parse(R"({})");
         auto info = decode<TestInfo>(j);
-        CHECK(!info.has_value());
+        CHECK(!info);
     }
 }
 
@@ -50,6 +50,7 @@ TEST_CASE("testing decoding of ChoiceQuestion")
 {
     auto j        = json::parse(R"(
         {
+            "type": 1,
             "id": 1,
             "stem": "s",
             "solution": "sol",
@@ -59,7 +60,7 @@ TEST_CASE("testing decoding of ChoiceQuestion")
             "score": 10
         }
     )");
-    auto question = decode<ChoiceQuestion>(j).value();
+    auto question = *decode<ChoiceQuestion>(j);
     CHECK(question.id == 1);
     CHECK(question.stem == "s");
     CHECK(question.solution == "sol");
@@ -73,6 +74,7 @@ TEST_CASE("testing decoding of ChoiceQuestion")
     {
         auto j        = json::parse(R"(
         {
+            "type": 1,
             "stem": "s",
             "solution": "sol",
             "hint": "h",
@@ -82,13 +84,14 @@ TEST_CASE("testing decoding of ChoiceQuestion")
         }
     )");
         auto question = decode<ChoiceQuestion>(j);
-        CHECK(!question.has_value());
+        CHECK(!question);
     }
 
     SUBCASE("no answer json")
     {
         auto j        = json::parse(R"(
         {
+            "type": 1,
             "id": 1,
             "stem": "s",
             "solution": "sol",
@@ -98,14 +101,30 @@ TEST_CASE("testing decoding of ChoiceQuestion")
         }
     )");
         auto question = decode<ChoiceQuestion>(j);
-        CHECK(!question.has_value());
+        CHECK(!question);
+    }
+
+    SUBCASE("no type json")
+    {
+        auto j        = json::parse(R"(
+        {
+            "stem": "s",
+            "solution": "sol",
+            "hint": "h",
+            "options": ["op1", "op2"],
+            "answer": 0,
+            "score": 10
+        }
+    )");
+        auto question = decode<ChoiceQuestion>(j);
+        CHECK(!question);
     }
 
     SUBCASE("empty json")
     {
         auto j        = json::parse(R"({})");
         auto question = decode<ChoiceQuestion>(j);
-        CHECK(!question.has_value());
+        CHECK(!question);
     }
 }
 
@@ -113,6 +132,7 @@ TEST_CASE("testing decoding of EssayQuestion")
 {
     auto j        = json::parse(R"(
         {
+            "type": 2,
             "id": 1,
             "stem": "s",
             "solution": "sol",
@@ -121,7 +141,7 @@ TEST_CASE("testing decoding of EssayQuestion")
             "score": 10
         }
     )");
-    auto question = decode<EssayQuestion>(j).value();
+    auto question = *decode<EssayQuestion>(j);
     CHECK(question.id == 1);
     CHECK(question.stem == "s");
     CHECK(question.solution == "sol");
@@ -134,6 +154,7 @@ TEST_CASE("testing decoding of EssayQuestion")
     {
         auto j        = json::parse(R"(
         {
+            "type": 2,
             "stem": "s",
             "solution": "sol",
             "hint": "h",
@@ -142,13 +163,14 @@ TEST_CASE("testing decoding of EssayQuestion")
         }
     )");
         auto question = decode<EssayQuestion>(j);
-        CHECK(!question.has_value());
+        CHECK(!question);
     }
 
     SUBCASE("no answers json")
     {
         auto j        = json::parse(R"(
         {
+            "type": 2,
             "id": 1,
             "stem": "s",
             "solution": "sol",
@@ -157,13 +179,29 @@ TEST_CASE("testing decoding of EssayQuestion")
         }
     )");
         auto question = decode<EssayQuestion>(j);
-        CHECK(!question.has_value());
+        CHECK(!question);
+    }
+
+    SUBCASE("no type json")
+    {
+        auto j        = json::parse(R"(
+        {
+            "id": 1,
+            "stem": "s",
+            "solution": "sol",
+            "hint": "h",
+            "answers": ["12", "3"],
+            "score": 10
+        }
+    )");
+        auto question = decode<EssayQuestion>(j);
+        CHECK(!question);
     }
 
     SUBCASE("empty json")
     {
         auto j        = json::parse(R"({})");
         auto question = decode<EssayQuestion>(j);
-        CHECK(!question.has_value());
+        CHECK(!question);
     }
 }

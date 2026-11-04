@@ -10,11 +10,11 @@ std::optional<TestFile> decodeTestFile(const nlohmann::json &j)
         return std::nullopt;
 
     auto ti = codec::decode<TestInfo>(j);
-    if (!ti.has_value())
+    if (!ti)
         return std::nullopt;
 
     TestFile tf;
-    tf.info      = ti.value();
+    tf.info      = *ti;
     tf.questions = j["questions"];
     return tf;
 }

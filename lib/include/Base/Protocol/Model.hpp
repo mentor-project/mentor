@@ -26,6 +26,7 @@ struct TestInfo
 
 enum class QuestionType : uint32_t
 {
+    unknown,
     choice,
     essay
 };

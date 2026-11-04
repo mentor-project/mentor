@@ -30,8 +30,8 @@ template <typename Question>
 std::optional<Question> decode(const nlohmann::json &j)
     requires IsQuestion<Question>
 {
-    // every question should at least have id and stem
-    if (!j.contains("id") || !j.contains("stem"))
+    // every question should at least have id, stem and type
+    if (!j.contains("id") || !j.contains("stem") || !j.contains("type"))
         return std::nullopt;
 
     if constexpr (std::is_same_v<ChoiceQuestion, Question>)

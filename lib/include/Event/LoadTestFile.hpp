@@ -1,6 +1,5 @@
 #pragma once
 
-#include <nlohmann/json.hpp>
 #include "Service/FileService.hpp"
 
 namespace mentor::event
