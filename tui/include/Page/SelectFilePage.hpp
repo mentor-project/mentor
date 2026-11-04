@@ -6,7 +6,9 @@
 #include "Basic/PageEnum.hpp"
 #include "Component/List.hpp"
 #include "Event/LoadTestFile.hpp"
+#include "Page/SelectDirPage.hpp"
 #include <ftxui/component/component.hpp>
+#include <ftxui/component/event.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <memory>
 
@@ -59,9 +61,20 @@ inline ftxui::Component getSelectFilePage(AppContext &ac)
                             separator(),
                             list->Render() | flex,
                             separator(),
-                            text("Enter: 确认") | dim,
+                            text("Backspace: 返回上一级    Enter: 确认") | dim,
                         });
                     });
+}
+
+inline bool handleSelectFilePageEvent(AppContext &ac, const ftxui::Event &e)
+{
+    if (e == ftxui::Event::Backspace)
+    {
+        buildListFromIterator(ac, tryGetIter(ac.cur_path));
+        ac.pm.backTo(Page::select_cur_dir | Page::select_dir);
+        return true;
+    }
+    return false;
 }
 
 } // namespace mentor::tui

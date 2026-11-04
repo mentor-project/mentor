@@ -26,6 +26,28 @@ public:
         return true;
     }
 
+    bool backTo(Page p) noexcept
+    {
+        while (!m_pst.empty() && m_pst.top() != p)
+            m_pst.pop();
+
+        if (m_pst.empty())
+            return false;
+
+        return true;
+    }
+
+    bool backTo(uint32_t page) noexcept
+    {
+        while (!m_pst.empty() && !(static_cast<uint32_t>(m_pst.top()) & page))
+            m_pst.pop();
+
+        if (m_pst.empty())
+            return false;
+
+        return true;
+    }
+
     void navigate(Page p) noexcept
     {
         m_pst.push(p);
