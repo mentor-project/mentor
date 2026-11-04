@@ -22,6 +22,7 @@ struct TestInfo
     TestMode mode;
     uint32_t id;
     uint32_t score;
+    uint32_t question_count;
 };
 
 enum class QuestionType : uint32_t

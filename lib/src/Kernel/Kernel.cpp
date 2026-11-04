@@ -40,6 +40,7 @@ Response Kernel::handleLoadTestFile(Event e) noexcept
     m_state     = State::testing;
     Response response;
     response.type = ResponseType::load_file_succeed;
+    m_test_file.info.question_count = m_test_file.questions.size();
     response.payload = &m_test_file.info;
     return response;
 }

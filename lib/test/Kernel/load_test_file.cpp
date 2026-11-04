@@ -38,6 +38,7 @@ TEST_CASE("testing kernel load test file")
     CHECK(testinfo->id == 99);
     CHECK(testinfo->mode == TestMode::practice);
     CHECK(testinfo->score == 50);
+    CHECK(testinfo->question_count == 2);
 
     SUBCASE("invalid inner state")
     {
