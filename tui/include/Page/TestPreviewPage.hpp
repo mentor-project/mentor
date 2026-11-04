@@ -54,6 +54,7 @@ inline ftxui::Component getTestPreviewPage(AppContext &ac)
                         }));
 
                         add_row("ID", std::to_string(info.id));
+                        add_row("题目数量", std::to_string(info.question_count));
                         add_row("分数", std::to_string(info.score));
 
                         if (!info.description.empty())
