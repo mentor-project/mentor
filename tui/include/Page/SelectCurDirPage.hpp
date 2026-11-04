@@ -3,6 +3,7 @@
 #include "Basic/AppContext.hpp"
 #include "Basic/PageEnum.hpp"
 #include "Component/Choice.hpp"
+#include "Page/SelectDirPage.hpp"
 #include <ftxui/component/component.hpp>
 #include <ftxui/dom/elements.hpp>
 
@@ -39,15 +40,7 @@ inline ftxui::Component getSelectCurDirPage(AppContext &ac)
     auto no = [&]()
     {
         auto it = std::filesystem::directory_iterator(ac.cur_path);
-        for (const auto &entry : it)
-        {
-            auto p = static_cast<std::filesystem::path>(entry);
-            ac.files.emplace_back(p);
-            if (std::filesystem::is_directory(p))
-                ac.list.emplace_back(p.filename().string() + "/");
-            else
-                ac.list.emplace_back(p.filename().string());
-        }
+        buildListFromIterator(ac, it);
         ac.pm.navigate(Page::select_dir);
     };
 

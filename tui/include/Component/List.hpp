@@ -19,6 +19,7 @@ inline ftxui::Component getListComponent(
         if (selected >= 0 && selected < entries.size())
             on_entry(entries[selected]);
     };
+    option.focused_entry = &selected;
 
     auto menu = Menu(&entries, &selected, option);
 
