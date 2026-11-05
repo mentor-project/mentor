@@ -7,7 +7,7 @@ namespace mentor::service
 
 std::optional<std::vector<std::filesystem::path>> FileService::getDirFiles(const std::filesystem::path &p,
                                                                            std::function<bool(const std::filesystem::path &p)> filter,
-                                                                           bool is_recursive)
+                                                                           bool is_recursive) noexcept
 {
     if (!std::filesystem::is_directory(p))
         return std::nullopt;
@@ -37,12 +37,12 @@ std::optional<std::vector<std::filesystem::path>> FileService::getDirFiles(const
     return files;
 }
 
-std::optional<std::vector<std::filesystem::path>> FileService::getCurrentDirFiles(std::function<bool(const std::filesystem::path &p)> filter, bool is_recursive)
+std::optional<std::vector<std::filesystem::path>> FileService::getCurrentDirFiles(std::function<bool(const std::filesystem::path &p)> filter, bool is_recursive) noexcept
 {
     return getDirFiles(std::filesystem::current_path(), filter, is_recursive);
 }
 
-json_file_id FileService::readJsonFile(const std::filesystem::path &p)
+json_file_id FileService::readJsonFile(const std::filesystem::path &p) noexcept
 {
     std::ifstream i(p);
     if (!i.is_open())
@@ -62,7 +62,7 @@ json_file_id FileService::readJsonFile(const std::filesystem::path &p)
     }
 }
 
-nlohmann::json *FileService::getJsonFile(json_file_id fid)
+const nlohmann::json *FileService::getJsonFile(json_file_id fid) const noexcept
 {
     auto it = m_json_file_cache.find(fid);
 

@@ -8,9 +8,9 @@
 namespace mentor::codec
 {
 
-std::optional<TestInfo> decodeTestInfo(const nlohmann::json &j);
-std::optional<ChoiceQuestion> decodeChoiceQuestion(const nlohmann::json &j);
-std::optional<EssayQuestion> decodeEssayQuestion(const nlohmann::json &j);
+std::optional<TestInfo> decodeTestInfo(const nlohmann::json &) noexcept;
+std::optional<ChoiceQuestion> decodeChoiceQuestion(const nlohmann::json &) noexcept;
+std::optional<EssayQuestion> decodeEssayQuestion(const nlohmann::json &) noexcept;
 
 template <typename Info>
 concept IsTestInfo = std::same_as<Info, TestInfo>;
@@ -20,14 +20,14 @@ concept IsQuestion = std::same_as<Question, ChoiceQuestion> ||
                      std::same_as<Question, EssayQuestion>;
 
 template <typename Info>
-std::optional<Info> decode(const nlohmann::json &j)
+std::optional<Info> decode(const nlohmann::json &j) noexcept
     requires IsTestInfo<Info>
 {
     return decodeTestInfo(j);
 }
 
 template <typename Question>
-std::optional<Question> decode(const nlohmann::json &j)
+std::optional<Question> decode(const nlohmann::json &j) noexcept
     requires IsQuestion<Question>
 {
     // every question should at least have id, stem and type

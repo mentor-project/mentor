@@ -4,7 +4,7 @@
 namespace mentor::codec
 {
 
-std::optional<TestFile> decodeTestFile(const nlohmann::json &j)
+std::optional<TestFile> decodeTestFile(const nlohmann::json &j) noexcept
 {
     if (!j.contains("questions"))
         return std::nullopt;

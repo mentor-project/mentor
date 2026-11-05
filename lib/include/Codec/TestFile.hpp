@@ -5,13 +5,13 @@
 namespace mentor::codec
 {
 
-std::optional<TestFile> decodeTestFile(const nlohmann::json &j);
+std::optional<TestFile> decodeTestFile(const nlohmann::json &) noexcept;
 
 template <typename File>
 concept IsTestFile = std::same_as<File, TestFile>;
 
 template <typename File>
-std::optional<File> decode(const nlohmann::json &j)
+std::optional<File> decode(const nlohmann::json &j) noexcept
     requires IsTestFile<File>
 {
     return decodeTestFile(j);

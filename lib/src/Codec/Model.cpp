@@ -4,7 +4,7 @@
 namespace mentor::codec
 {
 
-std::optional<TestInfo> decodeTestInfo(const nlohmann::json &j)
+std::optional<TestInfo> decodeTestInfo(const nlohmann::json &j) noexcept
 {
     if (!j.contains("id"))
         return std::nullopt;
@@ -19,7 +19,7 @@ std::optional<TestInfo> decodeTestInfo(const nlohmann::json &j)
     return info;
 }
 
-std::optional<ChoiceQuestion> decodeChoiceQuestion(const nlohmann::json &j)
+std::optional<ChoiceQuestion> decodeChoiceQuestion(const nlohmann::json &j) noexcept
 {
     if (!j.contains("options") || !j.contains("answer"))
         return std::nullopt;
@@ -35,7 +35,7 @@ std::optional<ChoiceQuestion> decodeChoiceQuestion(const nlohmann::json &j)
     return question;
 }
 
-std::optional<EssayQuestion> decodeEssayQuestion(const nlohmann::json &j)
+std::optional<EssayQuestion> decodeEssayQuestion(const nlohmann::json &j) noexcept
 {
     if (!j.contains("answers"))
         return std::nullopt;
