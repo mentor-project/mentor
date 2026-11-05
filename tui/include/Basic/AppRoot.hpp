@@ -2,6 +2,7 @@
 
 #include "Basic/AppContext.hpp"
 #include "Basic/PageEnum.hpp"
+#include "Page/ChoiceQuestionPage.hpp"
 #include "Page/EnsureSelectDirPage.hpp"
 #include "Page/ErrorPage.hpp"
 #include "Page/Event/EventHandler.hpp"
@@ -29,10 +30,11 @@ public:
         m_pages.emplace(Page::select_dir, getSelectDirPage(ac));
         m_pages.emplace(Page::ensure_select_dir, getEnsureSelectDirPage(ac));
         m_pages.emplace(Page::test_preview, getTestPreviewPage(ac));
-        m_pages.emplace(Page::choice_question, ftxui::Renderer([]()
-                                                               {
-                                                                   return ftxui::text("choice");
-                                                               }));
+        m_pages.emplace(Page::choice_question, getChoiceQuestionPage(ac));
+        m_pages.emplace(Page::essay_question, ftxui::Renderer([]()
+                                                              {
+                                                                  return ftxui::text("essay_question");
+                                                              }));
         m_pages.emplace(Page::error, getErrorPage(ac));
 
         ac.cur_path = "C:/";

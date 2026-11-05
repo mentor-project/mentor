@@ -43,7 +43,7 @@ inline ftxui::Component getSelectFilePage(AppContext &ac)
             ac.pm.navigate(Page::error);
             return;
         }
-        ac.tinfo = static_cast<TestInfo *>(response.payload);
+        ac.tinfo = response.payload.get<TestInfo *>();
         ac.pm.navigate(Page::test_preview);
     };
 

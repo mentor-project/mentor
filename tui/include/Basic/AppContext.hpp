@@ -21,6 +21,8 @@ struct AppContext
     std::vector<std::string> list;
     std::function<void()> error_on_click;
     TestInfo *tinfo;
+    kernel::QuestionHandle cur_question;
+    kernel::question_index cur_question_idx{};
     int list_selected{};
 
     AppContext() : kernel(fs) {}

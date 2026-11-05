@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Base/Event/Response.hpp"
+#include "Base/Protocol/Model.hpp"
 #include "Basic/AppContext.hpp"
+#include "Event/RequestQuestion.hpp"
+#include "Kernel/Kernel.hpp"
 #include <ftxui/component/app.hpp>
 #include <ftxui/component/component.hpp>
 #include <ftxui/dom/elements.hpp>
@@ -79,7 +83,23 @@ inline bool handleTestPreviewPageEvent(AppContext &ac, const ftxui::Event &e)
 {
     if (e == ftxui::Event::Return)
     {
-        ac.pm.navigate(Page::choice_question);
+        auto payload  = std::make_unique<event::RequestQuestion>(ac.cur_question_idx);
+        auto response = ac.kernel.handle(toEvent(EventType::request_question, payload));
+        if (response.type == ResponseType::post_question_failed)
+        {
+            ac.error_info     = "加载问题失败";
+            ac.error_on_click = [&ac]
+            {
+                ac.pm.back();
+            };
+            ac.pm.navigate(Page::error);
+            return true;
+        }
+        ac.cur_question = *response.payload.get<kernel::QuestionHandle *>();
+        if (ac.kernel.is<ChoiceQuestion>(ac.cur_question))
+            ac.pm.navigate(Page::choice_question);
+        else
+            ac.pm.navigate(Page::essay_question);
         return true;
     }
     return false;
