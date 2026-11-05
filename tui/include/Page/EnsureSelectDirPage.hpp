@@ -31,8 +31,7 @@ inline ftxui::Component getEnsureSelectDirPage(AppContext &ac)
             ac.error_info     = "未在当前目录下扫描到测试文件";
             ac.error_on_click = [&ac]
             {
-                ac.pm.back();
-                ac.pm.back();
+                ac.pm.backTo(Page::select_dir);
             };
             ac.pm.navigate(Page::error);
         }
