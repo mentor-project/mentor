@@ -8,6 +8,7 @@ enum class EventType
     error,
     load_test_file,
     request_question,
+    submit_answer
 };
 
 struct Event

@@ -7,7 +7,7 @@
     "questions": [
         {
             "type": 1,
-            "answer": 0,
+            "answer": 1,
             "hint": "h",
             "id": 1,
             "options": [
@@ -26,6 +26,19 @@
             ],
             "hint": "h",
             "id": 1,
+            "score": 10,
+            "solution": "sol",
+            "stem": "s"
+        },
+        {
+            "type": 1,
+            "answer": 3,
+            "hint": "h",
+            "id": 1,
+            "options": [
+                "op1",
+                "op2"
+            ],
             "score": 10,
             "solution": "sol",
             "stem": "s"

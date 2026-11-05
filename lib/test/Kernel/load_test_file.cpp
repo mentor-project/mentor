@@ -1,6 +1,4 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "Base/Event/Event.hpp"
-#include "Base/Event/Response.hpp"
 #include "Event/LoadTestFile.hpp"
 #include "Kernel/Kernel.hpp"
 #include "Service/FileService.hpp"
@@ -31,14 +29,14 @@ TEST_CASE("testing kernel load test file")
     auto response = k.handle(toEvent(EventType::load_test_file, payload));
     CHECK(response.type == ResponseType::load_file_succeed);
     CHECK(k.getState() == State::testing);
-    auto testinfo = static_cast<TestInfo *>(response.payload);
+    auto testinfo = response.payload.get<TestInfo *>();
     CHECK(testinfo->name == "test");
     CHECK(testinfo->author == "TPPPP");
     CHECK(testinfo->description == "this is a test");
     CHECK(testinfo->id == 99);
     CHECK(testinfo->mode == TestMode::practice);
     CHECK(testinfo->score == 50);
-    CHECK(testinfo->question_count == 2);
+    CHECK(testinfo->question_count == 3);
 
     SUBCASE("invalid inner state")
     {

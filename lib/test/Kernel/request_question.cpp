@@ -1,6 +1,4 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "Base/Event/Event.hpp"
-#include "Base/Event/Response.hpp"
 #include "Base/Protocol/Model.hpp"
 #include "Event/LoadTestFile.hpp"
 #include "Event/RequestQuestion.hpp"
@@ -30,7 +28,7 @@ TEST_CASE("testing kernel request question")
         auto payload  = std::make_unique<RequestQuestion>(0);
         auto response = k.handle(toEvent(EventType::request_question, payload));
         CHECK(response.type == ResponseType::post_question_succeed);
-        auto handle = static_cast<QuestionHandle *>(response.payload);
+        auto handle = response.payload.get<QuestionHandle *>();
 
         {
             auto q = k.tryGetQuestion<EssayQuestion>(*handle);
@@ -44,7 +42,7 @@ TEST_CASE("testing kernel request question")
         CHECK(q->options[0] == "op1");
         CHECK(q->options[1] == "op2");
         CHECK(q->hint == "h");
-        CHECK(q->answer == 0);
+        CHECK(q->answer == 1);
         CHECK(q->solution == "sol");
     }
 
@@ -53,7 +51,7 @@ TEST_CASE("testing kernel request question")
         auto payload  = std::make_unique<RequestQuestion>(1);
         auto response = k.handle(toEvent(EventType::request_question, payload));
         CHECK(response.type == ResponseType::post_question_succeed);
-        auto handle = static_cast<QuestionHandle *>(response.payload);
+        auto handle = response.payload.get<QuestionHandle *>();
 
         {
             auto q = k.tryGetQuestion<ChoiceQuestion>(*handle);

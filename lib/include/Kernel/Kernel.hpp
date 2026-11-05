@@ -66,12 +66,46 @@ public:
     }
 
 private:
+    template <typename Question>
+    const Question &getQuestion(question_index i) const noexcept
+        requires std::same_as<Question, ChoiceQuestion>
+    {
+        return m_choice_questions[i];
+    }
+
+    template <typename Question>
+    const Question &getQuestion(question_index i) const noexcept
+        requires std::same_as<Question, EssayQuestion>
+    {
+        return m_essay_questions[i];
+    }
+
+    template <typename Question>
+    bool is(question_index i) const noexcept
+        requires std::same_as<Question, ChoiceQuestion>
+    {
+        return m_cache.at(i).type == QuestionType::choice;
+    }
+
+    template <typename Question>
+    bool is(question_index i) const noexcept
+        requires std::same_as<Question, EssayQuestion>
+    {
+        return m_cache.at(i).type == QuestionType::essay;
+    }
+
+private:
     Response handleLoadTestFile(Event) noexcept;
     Response handleRequestQuestion(Event) noexcept;
+    Response handleSubmitAnswer(Event) noexcept;
 
 private:
     Response cacheChoiceQuestion(question_index) noexcept;
     Response cacheEssayQuestion(question_index) noexcept;
+
+private:
+    Response checkChoiceQuestion(question_index, uint32_t) noexcept;
+    Response checkEssayQuestion(question_index, uint32_t, std::string_view) noexcept;
 
 private:
     TestFile m_test_file;

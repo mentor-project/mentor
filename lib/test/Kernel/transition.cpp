@@ -1,6 +1,4 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "Base/Event/Event.hpp"
-#include "Base/Event/Response.hpp"
 #include "Event/LoadTestFile.hpp"
 #include "Kernel/Kernel.hpp"
 #include "Service/FileService.hpp"

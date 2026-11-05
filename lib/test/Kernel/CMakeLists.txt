@@ -10,5 +10,7 @@ mentor_copy_file(transition test_file_valid.json)
 mentor_copy_file(transition test_file_invalid.json)
 mentor_add_test(request_question SOURCES request_question.cpp)
 mentor_copy_file(request_question test_file_valid.json)
+mentor_add_test(submit_answer SOURCES submit_answer.cpp)
+mentor_copy_file(submit_answer test_file_valid.json)
 
 message(STATUS "[mentor_lib] Kernel tests configuration succeed!")
