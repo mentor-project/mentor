@@ -9,7 +9,7 @@ namespace mentor::tui
 inline ftxui::Component getListComponent(
     std::vector<std::string> &entries,
     int &selected,
-    std::function<void(const std::string &)> on_entry)
+    std::function<void(const std::string &)> on_entry) noexcept
 {
     using namespace ftxui;
 

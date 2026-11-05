@@ -10,7 +10,7 @@
 namespace mentor::tui
 {
 
-inline ftxui::Component getSelectCurDirPage(AppContext &ac)
+inline ftxui::Component getSelectCurDirPage(AppContext &ac) noexcept
 {
     auto yes = [&]()
     {

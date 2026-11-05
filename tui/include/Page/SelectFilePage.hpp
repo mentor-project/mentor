@@ -15,7 +15,7 @@
 namespace mentor::tui
 {
 
-inline ftxui::Component getSelectFilePage(AppContext &ac)
+inline ftxui::Component getSelectFilePage(AppContext &ac) noexcept
 {
     auto entry = [&ac](const std::string &s)
     {
@@ -63,7 +63,7 @@ inline ftxui::Component getSelectFilePage(AppContext &ac)
                     });
 }
 
-inline bool handleSelectFilePageEvent(AppContext &ac, const ftxui::Event &e)
+inline bool handleSelectFilePageEvent(AppContext &ac, const ftxui::Event &e) noexcept
 {
     if (e == ftxui::Event::Backspace)
     {

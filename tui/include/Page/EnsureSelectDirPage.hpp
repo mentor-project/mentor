@@ -9,7 +9,7 @@
 namespace mentor::tui
 {
 
-inline ftxui::Component getEnsureSelectDirPage(AppContext &ac)
+inline ftxui::Component getEnsureSelectDirPage(AppContext &ac) noexcept
 {
     auto yes = [&]()
     {

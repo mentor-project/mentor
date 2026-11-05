@@ -11,7 +11,7 @@
 namespace mentor::tui
 {
 
-inline std::filesystem::directory_iterator tryGetIter(const std::filesystem::path &p)
+inline std::filesystem::directory_iterator tryGetIter(const std::filesystem::path &p) noexcept
 {
     std::error_code ec;
     auto it = std::filesystem::directory_iterator(p, ec);
@@ -22,7 +22,7 @@ inline std::filesystem::directory_iterator tryGetIter(const std::filesystem::pat
     return it;
 }
 
-inline void buildListFromIterator(AppContext &ac, const std::filesystem::directory_iterator &it)
+inline void buildListFromIterator(AppContext &ac, const std::filesystem::directory_iterator &it) noexcept
 {
     ac.files.clear();
     ac.list.clear();
@@ -50,7 +50,7 @@ inline void buildListFromIterator(AppContext &ac, const std::filesystem::directo
     }
 }
 
-inline ftxui::Component getSelectDirPage(AppContext &ac)
+inline ftxui::Component getSelectDirPage(AppContext &ac) noexcept
 {
     auto entry = [&ac](const std::string &s)
     {
@@ -95,7 +95,7 @@ inline ftxui::Component getSelectDirPage(AppContext &ac)
                     });
 }
 
-inline bool handleSelectDirPageEvent(AppContext &ac, const ftxui::Event &e)
+inline bool handleSelectDirPageEvent(AppContext &ac, const ftxui::Event &e) noexcept
 {
     if (e == ftxui::Event::Backspace)
     {

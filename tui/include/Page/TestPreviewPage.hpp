@@ -12,7 +12,7 @@
 namespace mentor::tui
 {
 
-inline std::string_view test_mode_to_string(TestMode mode)
+inline std::string_view test_mode_to_string(TestMode mode) noexcept
 {
     switch (mode)
     {
@@ -26,7 +26,7 @@ inline std::string_view test_mode_to_string(TestMode mode)
     return "";
 }
 
-inline ftxui::Component getTestPreviewPage(AppContext &ac)
+inline ftxui::Component getTestPreviewPage(AppContext &ac) noexcept
 {
     using namespace ftxui;
 
@@ -68,18 +68,16 @@ inline ftxui::Component getTestPreviewPage(AppContext &ac)
                             rows.push_back(paragraph(info.description) | flex);
                         }
 
-                        return vbox({
-                                   text("测试信息预览") | bold | center,
-                                   separator(),
-                                   vbox(std::move(rows)) | flex,
-                                   separator(),
-                                   text("按回车键继续") | dim
-                               }) |
+                        return vbox({text("测试信息预览") | bold | center,
+                                     separator(),
+                                     vbox(std::move(rows)) | flex,
+                                     separator(),
+                                     text("按回车键继续") | dim}) |
                                border | size(WIDTH, LESS_THAN, 60) | center;
                     });
 }
 
-inline bool handleTestPreviewPageEvent(AppContext &ac, const ftxui::Event &e)
+inline bool handleTestPreviewPageEvent(AppContext &ac, const ftxui::Event &e) noexcept
 {
     if (e == ftxui::Event::Return)
     {

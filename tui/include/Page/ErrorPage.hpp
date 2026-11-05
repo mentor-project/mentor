@@ -8,7 +8,7 @@
 namespace mentor::tui
 {
 
-inline ftxui::Component getErrorPage(AppContext &ac)
+inline ftxui::Component getErrorPage(AppContext &ac) noexcept
 {
     using namespace ftxui;
 
@@ -19,7 +19,7 @@ inline ftxui::Component getErrorPage(AppContext &ac)
                     });
 }
 
-inline bool handleErrorPageEvent(AppContext &ac, const ftxui::Event &e)
+inline bool handleErrorPageEvent(AppContext &ac, const ftxui::Event &e) noexcept
 {
     if (e == ftxui::Event::Return)
     {

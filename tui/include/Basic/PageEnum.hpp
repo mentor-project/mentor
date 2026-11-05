@@ -24,7 +24,7 @@ enum class Page : uint32_t
     empty = 1 << 9
 };
 
-inline uint32_t operator|(Page a, Page b)
+inline uint32_t operator|(Page a, Page b) noexcept
 {
     return static_cast<uint32_t>(a) | static_cast<uint32_t>(b);
 }

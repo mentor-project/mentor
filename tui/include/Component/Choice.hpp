@@ -8,7 +8,7 @@ namespace mentor::tui
 
 inline ftxui::Component getChoiceComponent(std::string_view title,
                                            std::function<void()> on_yes,
-                                           std::function<void()> on_no)
+                                           std::function<void()> on_no) noexcept
 {
     using namespace ftxui;
     auto buttons = Container::Vertical({

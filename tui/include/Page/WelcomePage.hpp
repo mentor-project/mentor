@@ -8,7 +8,7 @@
 namespace mentor::tui
 {
 
-static inline std::string_view logo = R"(                                                                   
+constexpr static inline std::string_view logo = R"(                                                                   
                                                                    
           ____                          ___                        
         ,'  , `.                      ,--.'|_                      
@@ -25,7 +25,7 @@ static inline std::string_view logo = R"(
                 `----'                                             
                                                                    )";
 
-inline ftxui::Component getWelcomePage(AppContext &ac)
+inline ftxui::Component getWelcomePage(AppContext &ac) noexcept
 {
     using namespace ftxui;
     return Renderer([]
@@ -43,7 +43,7 @@ inline ftxui::Component getWelcomePage(AppContext &ac)
                     });
 }
 
-inline bool handleWelcomePageEvent(AppContext &ac, const ftxui::Event &e)
+inline bool handleWelcomePageEvent(AppContext &ac, const ftxui::Event &e) noexcept
 {
     if (e == ftxui::Event::Return)
     {
