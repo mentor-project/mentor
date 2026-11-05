@@ -30,7 +30,14 @@ TEST_CASE("testing kernel request question")
         auto payload  = std::make_unique<RequestQuestion>(0);
         auto response = k.handle(toEvent(EventType::request_question, payload));
         CHECK(response.type == ResponseType::post_choice_question);
-        auto q = static_cast<ChoiceQuestion *>(response.payload);
+        auto handle = static_cast<QuestionHandle *>(response.payload);
+
+        {
+            auto q = k.tryGetQuestion<EssayQuestion>(*handle);
+            CHECK(!q);
+        }
+
+        auto q = k.tryGetQuestion<ChoiceQuestion>(*handle);
         CHECK(q->id == 1);
         CHECK(q->stem == "s");
         CHECK(q->score == 10);
@@ -46,7 +53,14 @@ TEST_CASE("testing kernel request question")
         auto payload  = std::make_unique<RequestQuestion>(1);
         auto response = k.handle(toEvent(EventType::request_question, payload));
         CHECK(response.type == ResponseType::post_essay_question);
-        auto q = static_cast<EssayQuestion *>(response.payload);
+        auto handle = static_cast<QuestionHandle *>(response.payload);
+
+        {
+            auto q = k.tryGetQuestion<ChoiceQuestion>(*handle);
+            CHECK(!q);
+        }
+
+        auto q = k.tryGetQuestion<EssayQuestion>(*handle);
         CHECK(q->id == 1);
         CHECK(q->stem == "s");
         CHECK(q->score == 10);

@@ -56,13 +56,13 @@ Response Kernel::handleRequestQuestion(Event e) noexcept
     // cache hit
     if (m_cache.contains(i))
     {
-        auto [index, type] = m_cache.at(i);
-        switch (type)
+        auto &handle = m_cache.at(i);
+        switch (handle.type)
         {
         case QuestionType::choice:
-            return {ResponseType::post_choice_question, &m_choice_questions[index]};
+            return {ResponseType::post_choice_question, &handle};
         case QuestionType::essay:
-            return {ResponseType::post_essay_question, &m_essay_questions[index]};
+            return {ResponseType::post_essay_question, &handle};
         default:
             break;
         }
@@ -98,8 +98,8 @@ Response Kernel::cacheChoiceQuestion(question_index i) noexcept
     handle.type  = QuestionType::choice;
 
     m_choice_questions.push_back(std::move(*q));
-    m_cache.emplace(i, handle);
-    response.payload = &m_choice_questions.back();
+    auto [it, _]     = m_cache.try_emplace(i, handle);
+    response.payload = &it->second;
     return response;
 }
 
@@ -117,8 +117,8 @@ Response Kernel::cacheEssayQuestion(question_index i) noexcept
     handle.type  = QuestionType::essay;
 
     m_essay_questions.push_back(std::move(*q));
-    m_cache.emplace(i, handle);
-    response.payload = &m_essay_questions.back();
+    auto [it, _]     = m_cache.try_emplace(i, handle);
+    response.payload = &it->second;
     return response;
 }
 

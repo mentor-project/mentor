@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bit>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -41,6 +42,10 @@ struct ChoiceQuestion
     uint32_t answer;
     uint32_t id;
     uint32_t score;
+
+    bool isMultiple() const noexcept{
+        return std::popcount(answer) > 1;
+    }
 };
 
 struct EssayQuestion

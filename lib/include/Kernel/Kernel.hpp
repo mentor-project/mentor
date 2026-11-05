@@ -6,6 +6,7 @@
 #include "Base/Protocol/TestFile.hpp"
 #include "Kernel/State.hpp"
 #include "Service/FileService.hpp"
+#include <concepts>
 #include <unordered_map>
 
 namespace mentor::kernel
@@ -28,6 +29,27 @@ public:
 #ifdef MENTOR_LIB_TEST
     void setState(State) noexcept;
 #endif
+
+public:
+    template <typename Question>
+    const Question *tryGetQuestion(QuestionHandle handle)
+        requires std::same_as<Question, ChoiceQuestion>
+    {
+        if (handle.type != QuestionType::choice)
+            return nullptr;
+
+        return &m_choice_questions[handle.index];
+    }
+
+    template <typename Question>
+    const Question *tryGetQuestion(QuestionHandle handle)
+        requires std::same_as<Question, EssayQuestion>
+    {
+        if (handle.type != QuestionType::essay)
+            return nullptr;
+
+        return &m_essay_questions[handle.index];
+    }
 
 private:
     Response handleLoadTestFile(Event) noexcept;
