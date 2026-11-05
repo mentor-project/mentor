@@ -8,8 +8,8 @@ enum class ResponseType
     error,
     load_file_succeed,
     load_file_failed,
-    post_choice_question,
-    post_essay_question
+    post_question_succeed,
+    post_question_failed
 };
 
 struct Response

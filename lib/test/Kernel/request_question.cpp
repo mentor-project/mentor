@@ -29,7 +29,7 @@ TEST_CASE("testing kernel request question")
     {
         auto payload  = std::make_unique<RequestQuestion>(0);
         auto response = k.handle(toEvent(EventType::request_question, payload));
-        CHECK(response.type == ResponseType::post_choice_question);
+        CHECK(response.type == ResponseType::post_question_succeed);
         auto handle = static_cast<QuestionHandle *>(response.payload);
 
         {
@@ -52,7 +52,7 @@ TEST_CASE("testing kernel request question")
     {
         auto payload  = std::make_unique<RequestQuestion>(1);
         auto response = k.handle(toEvent(EventType::request_question, payload));
-        CHECK(response.type == ResponseType::post_essay_question);
+        CHECK(response.type == ResponseType::post_question_succeed);
         auto handle = static_cast<QuestionHandle *>(response.payload);
 
         {

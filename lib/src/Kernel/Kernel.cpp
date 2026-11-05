@@ -39,9 +39,9 @@ Response Kernel::handleLoadTestFile(Event e) noexcept
     m_test_file = std::move(decoded.value());
     m_state     = State::testing;
     Response response;
-    response.type = ResponseType::load_file_succeed;
+    response.type                   = ResponseType::load_file_succeed;
     m_test_file.info.question_count = m_test_file.questions.size();
-    response.payload = &m_test_file.info;
+    response.payload                = &m_test_file.info;
     return response;
 }
 
@@ -53,6 +53,9 @@ Response Kernel::handleRequestQuestion(Event e) noexcept
     auto payload = static_cast<event::RequestQuestion *>(e.payload);
     auto i       = payload->qi;
 
+    if (i >= m_test_file.questions.size())
+        return {ResponseType::post_question_failed};
+
     // cache hit
     if (m_cache.contains(i))
     {
@@ -60,13 +63,13 @@ Response Kernel::handleRequestQuestion(Event e) noexcept
         switch (handle.type)
         {
         case QuestionType::choice:
-            return {ResponseType::post_choice_question, &handle};
+            return {ResponseType::post_question_succeed, &handle};
         case QuestionType::essay:
-            return {ResponseType::post_essay_question, &handle};
+            return {ResponseType::post_question_succeed, &handle};
         default:
             break;
         }
-        return Response::error();
+        return {ResponseType::post_question_failed};
     }
 
     auto &questions = m_test_file.questions;
@@ -81,17 +84,17 @@ Response Kernel::handleRequestQuestion(Event e) noexcept
         break;
     }
 
-    return Response::error();
+    return {ResponseType::post_question_failed};
 }
 
 Response Kernel::cacheChoiceQuestion(question_index i) noexcept
 {
-    Response response;
-    response.type = ResponseType::post_choice_question;
-
     auto q = codec::decode<ChoiceQuestion>(m_test_file.questions[i]);
     if (!q)
-        return Response::error();
+        return {ResponseType::post_question_failed};
+
+    Response response;
+    response.type = ResponseType::post_question_succeed;
 
     QuestionHandle handle;
     handle.index = m_choice_questions.size();
@@ -105,12 +108,12 @@ Response Kernel::cacheChoiceQuestion(question_index i) noexcept
 
 Response Kernel::cacheEssayQuestion(question_index i) noexcept
 {
-    Response response;
-    response.type = ResponseType::post_essay_question;
-
     auto q = codec::decode<EssayQuestion>(m_test_file.questions[i]);
     if (!q)
-        return Response::error();
+        return {ResponseType::post_question_failed};
+
+    Response response;
+    response.type = ResponseType::post_question_succeed;
 
     QuestionHandle handle;
     handle.index = m_essay_questions.size();

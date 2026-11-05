@@ -32,23 +32,37 @@ public:
 
 public:
     template <typename Question>
-    const Question *tryGetQuestion(QuestionHandle handle)
+    const Question *tryGetQuestion(QuestionHandle handle) const noexcept
         requires std::same_as<Question, ChoiceQuestion>
     {
-        if (handle.type != QuestionType::choice)
+        if (!is<Question>(handle))
             return nullptr;
 
         return &m_choice_questions[handle.index];
     }
 
     template <typename Question>
-    const Question *tryGetQuestion(QuestionHandle handle)
+    const Question *tryGetQuestion(QuestionHandle handle) const noexcept
         requires std::same_as<Question, EssayQuestion>
     {
-        if (handle.type != QuestionType::essay)
+        if (!is<Question>(handle))
             return nullptr;
 
         return &m_essay_questions[handle.index];
+    }
+
+    template <typename Question>
+    bool is(QuestionHandle handle) const noexcept
+        requires std::same_as<Question, ChoiceQuestion>
+    {
+        return handle.type == QuestionType::choice;
+    }
+
+    template <typename Question>
+    bool is(QuestionHandle handle) const noexcept
+        requires std::same_as<Question, EssayQuestion>
+    {
+        return handle.type == QuestionType::essay;
     }
 
 private:
