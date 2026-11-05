@@ -31,11 +31,8 @@ inline ftxui::Component getSelectFilePage(AppContext &ac)
             return;
         }
 
-        Event e;
-        e.type        = EventType::load_test_file;
         auto payload  = std::make_unique<event::LoadTestFile>(fid);
-        e.payload     = payload.get();
-        auto response = ac.kernel.handle(e);
+        auto response = ac.kernel.handle(toEvent(EventType::load_test_file, payload));
         if (response.type == ResponseType::load_file_failed)
         {
             ac.error_info     = "该json文件不是测试文件";
