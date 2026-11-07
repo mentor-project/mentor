@@ -2,6 +2,7 @@ include(mentor_test)
 
 message(STATUS "[mentor_lib] Configuring tests...")
 
+add_subdirectory(Base)
 add_subdirectory(Codec)
 add_subdirectory(Service)
 add_subdirectory(Kernel)
